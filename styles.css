@@ -298,17 +298,7 @@ body {
 }
 
 .btn-sparkle {
-  animation: sparkle 2s ease-in-out infinite;
-}
-
-@keyframes sparkle {
-  0%,
-  100% {
-    transform: scale(1) rotate(0deg);
-  }
-  50% {
-    transform: scale(1.2) rotate(180deg);
-  }
+  /* Animation removed */
 }
 
 /* Game screen */
