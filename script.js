@@ -1602,6 +1602,8 @@ function wordGame() {
         this.roundScore = this.nextWordClicks - this.previousWordClicks;
         this.teamScores[this.currentTeam] += this.roundScore;
 
+        // Play win sound
+        this.playWinSound();
         this.currentScreen = "gameComplete";
         this.stopTimer();
         return;
@@ -1673,6 +1675,18 @@ function wordGame() {
       // Play the buzzer sound
       buzzerAudio.play().catch((error) => {
         console.log("Could not play buzzer sound:", error);
+      });
+    },
+
+    // Play win sound when game completes
+    playWinSound() {
+      // Create audio element for win sound
+      const winAudio = new Audio("audio/win.mp3");
+      winAudio.volume = 0.8; // Set volume to 80%
+
+      // Play the win sound
+      winAudio.play().catch((error) => {
+        console.log("Could not play win sound:", error);
       });
     },
 
@@ -1757,6 +1771,9 @@ function wordGame() {
         // Game is complete - all words have been used
         // Add the final round's score before ending the game
         this.teamScores[this.currentTeam] = newScore;
+
+        // Play win sound
+        this.playWinSound();
         this.currentScreen = "gameComplete";
       } else {
         // Immediately switch to next team
@@ -1798,6 +1815,7 @@ function wordGame() {
         this.currentWordIndex >= maxWords
       ) {
         // Game is complete - all words have been used
+        this.playWinSound();
         this.currentScreen = "gameComplete";
       }
     },
@@ -1843,6 +1861,16 @@ function wordGame() {
     // Check if it's time to show the start round button
     get shouldShowStartRound() {
       return !this.timerRunning;
+    },
+
+    // Check if the game is a draw
+    isDraw() {
+      const scores = Object.values(this.teamScores);
+      const maxScore = Math.max(...scores);
+      const teamsWithMaxScore = scores.filter(
+        (score) => score === maxScore
+      ).length;
+      return teamsWithMaxScore > 1;
     },
 
     // Get winning team

@@ -241,7 +241,7 @@
                 <template x-for="team in gameSettings.teams" :key="team">
                   <div
                     class="final-score-item"
-                    :class="{ 'winner': team === getWinningTeam().team }"
+                    :class="{ 'winner': isDraw() ? teamScores[team] === getWinningTeam().score : team === getWinningTeam().team }"
                   >
                     <div
                       class="final-score-color"
@@ -257,9 +257,9 @@
                     ></span>
                     <span
                       class="winner-badge"
-                      x-show="team === getWinningTeam().team"
-                      >👑</span
-                    >
+                      x-show="isDraw() ? teamScores[team] === getWinningTeam().score : team === getWinningTeam().team"
+                      x-text="isDraw() ? '🤝' : '👑'"
+                    ></span>
                   </div>
                 </template>
               </div>
@@ -267,10 +267,13 @@
 
             <!-- Winner Announcement -->
             <div class="winner-announcement">
-              <h3 class="winner-title">🏆 Winner! 🏆</h3>
+              <h3
+                class="winner-title"
+                x-text="isDraw() ? '🤝 It\'s a Draw! 🤝' : '🏆 Winner! 🏆'"
+              ></h3>
               <p
                 class="winner-text"
-                x-text="`Team ${getWinningTeam().team} wins with ${getWinningTeam().score} points!`"
+                x-text="isDraw() ? `All teams tied with ${getWinningTeam().score} points!` : `Team ${getWinningTeam().team} wins with ${getWinningTeam().score} points!`"
               ></p>
             </div>
 
