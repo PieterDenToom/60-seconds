@@ -96,9 +96,15 @@
             </div>
           </div>
 
-          <button @click="startGame()" class="start-btn">
-            <span class="btn-text">Start Game!</span>
-          </button>
+          <div class="start-buttons">
+            <button @click="startGame()" class="start-btn">
+              <span class="btn-text">Start Game!</span>
+            </button>
+            <button @click="showInfoPopup = true" class="info-btn">
+              <span class="btn-icon">ℹ️</span>
+              <span class="btn-text">How to Play</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -272,6 +278,65 @@
               <span class="btn-icon">🏠</span>
               <span class="btn-text">Back to Start</span>
             </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Popup Modal -->
+      <div
+        x-show="showInfoPopup"
+        class="popup-overlay"
+        @click="showInfoPopup = false"
+      >
+        <div class="popup-content" @click.stop>
+          <div class="popup-header">
+            <h2 class="popup-title">How to Play</h2>
+            <button @click="showInfoPopup = false" class="popup-close-btn">
+              ×
+            </button>
+          </div>
+          <div class="popup-body">
+            <div class="game-rules">
+              <div class="rule-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <strong>Divide into teams</strong> of at least 2 people each.
+                </div>
+              </div>
+
+              <div class="rule-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <strong>Explain the words</strong> shown to your team. You can
+                  only use <strong>one-syllable words</strong>.
+                </div>
+              </div>
+
+              <div class="rule-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <strong>Navigate words</strong> using the "Next" and
+                  "Previous" buttons. You cannot skip words.
+                </div>
+              </div>
+
+              <div class="rule-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <strong>If you make a mistake</strong> (say part of the word,
+                  use multi-syllable words, etc.), you lose the round and must
+                  press "End Round".
+                </div>
+              </div>
+
+              <div class="rule-step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                  <strong>Score points</strong> for each word you successfully
+                  explain to your team within the time limit.
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

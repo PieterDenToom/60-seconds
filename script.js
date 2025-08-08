@@ -1,6 +1,7 @@
 function wordGame() {
   return {
     currentScreen: "start",
+    showInfoPopup: false,
     gameSettings: {
       language: "english",
       teams: 2,
@@ -1529,6 +1530,8 @@ function wordGame() {
         if (this.timeRemaining > 0) {
           this.timeRemaining -= 0.1;
         } else {
+          // Play buzzer sound when time runs out
+          this.playBuzzerSound();
           this.stopTimer();
           this.nextRound();
         }
@@ -1661,6 +1664,18 @@ function wordGame() {
       oscillator.stop(this.audioContext.currentTime + 0.1);
     },
 
+    // Play buzzer sound when time runs out
+    playBuzzerSound() {
+      // Create audio element for buzzer sound
+      const buzzerAudio = new Audio("audio/buzzer.mp3");
+      buzzerAudio.volume = 0.7; // Set volume to 70%
+
+      // Play the buzzer sound
+      buzzerAudio.play().catch((error) => {
+        console.log("Could not play buzzer sound:", error);
+      });
+    },
+
     // Animate score counting
     animateScore(teamId, startScore, endScore, duration = 3000) {
       const startTime = Date.now();
@@ -1766,6 +1781,9 @@ function wordGame() {
       // Calculate which team should play in this round
       this.currentTeam =
         ((this.currentRound - 1) % this.gameSettings.teams) + 1;
+
+      // Advance to the next word for the new round
+      this.currentWordIndex++;
 
       // Check if we've reached the word limit
       const maxWords =
