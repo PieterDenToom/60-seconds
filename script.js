@@ -1533,6 +1533,11 @@ function wordGame() {
           // Play buzzer sound when time runs out
           this.playBuzzerSound();
           this.stopTimer();
+
+          // Calculate and add the current round's score before moving to next round
+          this.roundScore = this.nextWordClicks - this.previousWordClicks;
+          this.teamScores[this.currentTeam] += this.roundScore;
+
           this.nextRound();
         }
       }, 100);
