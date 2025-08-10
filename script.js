@@ -1533,12 +1533,7 @@ function wordGame() {
           // Play buzzer sound when time runs out
           this.playBuzzerSound();
           this.stopTimer();
-
-          // Calculate and add the current round's score before moving to next round
-          this.roundScore = this.nextWordClicks - this.previousWordClicks;
-          this.teamScores[this.currentTeam] += this.roundScore;
-
-          this.nextRound();
+          this.handleRoundEnd();
         }
       }, 100);
     },
@@ -1753,15 +1748,20 @@ function wordGame() {
     endRound() {
       if (!this.timerRunning) return;
 
+      this.stopTimer();
+      this.handleRoundEnd();
+    },
+
+    // Shared logic for handling round end (both timer timeout and manual end)
+    handleRoundEnd() {
+      // Calculate the current round's score
       this.roundScore = this.nextWordClicks - this.previousWordClicks;
 
       // Get the current score before adding new points
       const currentScore = this.teamScores[this.currentTeam];
       const newScore = currentScore + this.roundScore;
 
-      this.stopTimer();
-
-      // Check if we've reached the word limit after ending the round
+      // Check if we've reached the word limit
       const maxWords =
         this.gameSettings.language === "both"
           ? this.combinedWords.length
@@ -1774,14 +1774,11 @@ function wordGame() {
         this.currentWordIndex >= maxWords
       ) {
         // Game is complete - all words have been used
-        // Add the final round's score before ending the game
         this.teamScores[this.currentTeam] = newScore;
-
-        // Play win sound
         this.playWinSound();
         this.currentScreen = "gameComplete";
       } else {
-        // Immediately switch to next team
+        // Move to next round
         this.nextRound();
 
         // Start the score animation for the previous team during the next team's turn
