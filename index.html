@@ -177,14 +177,6 @@
                 <h2 class="current-word" x-text="getCurrentWord()"></h2>
                 <div class="word-navigation">
                   <button
-                    @click="previousWord()"
-                    class="nav-btn prev-btn"
-                    :disabled="!timerRunning"
-                  >
-                    <span class="btn-icon">⬅️</span>
-                    <span class="btn-text">Previous</span>
-                  </button>
-                  <button
                     @click="nextWord()"
                     class="nav-btn next-btn"
                     :disabled="!timerRunning"

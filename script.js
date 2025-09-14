@@ -14,7 +14,6 @@ function wordGame() {
     timerRunning: false,
     currentWordIndex: 0,
     nextWordClicks: 0,
-    previousWordClicks: 0,
     roundScore: 0,
     showRoundScore: false,
     teamScores: {},
@@ -1559,7 +1558,6 @@ function wordGame() {
     resetRoundState() {
       // Don't reset currentWordIndex - keep track of progress across rounds
       this.nextWordClicks = 0;
-      this.previousWordClicks = 0;
       this.roundScore = 0;
       this.showRoundScore = false;
     },
@@ -1599,7 +1597,7 @@ function wordGame() {
       ) {
         // Game is complete - all words have been used
         // Calculate and add the final round's score
-        this.roundScore = this.nextWordClicks - this.previousWordClicks;
+        this.roundScore = this.nextWordClicks;
         this.teamScores[this.currentTeam] += this.roundScore;
 
         // Play win sound
@@ -1610,18 +1608,6 @@ function wordGame() {
       }
     },
 
-    // Navigate to previous word
-    previousWord() {
-      if (!this.timerRunning) return;
-
-      this.previousWordClicks++;
-      this.currentWordIndex--;
-
-      // Don't go below 0 - maintain progress tracking
-      if (this.currentWordIndex < 0) {
-        this.currentWordIndex = 0;
-      }
-    },
 
     // Create audio context for sound effects
     createAudioContext() {
@@ -1755,7 +1741,7 @@ function wordGame() {
     // Shared logic for handling round end (both timer timeout and manual end)
     handleRoundEnd() {
       // Calculate the current round's score
-      this.roundScore = this.nextWordClicks - this.previousWordClicks;
+      this.roundScore = this.nextWordClicks;
 
       // Get the current score before adding new points
       const currentScore = this.teamScores[this.currentTeam];
