@@ -641,31 +641,92 @@ body {
 
 .word-navigation {
   display: flex;
-  gap: 20px;
-  align-items: center;
+  gap: 12px;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  max-width: 500px;
 }
 
 .nav-btn {
-  padding: 12px 28px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  color: white;
+  flex: 0 1 auto;
+  padding: 14px 24px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.85);
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 500;
   backdrop-filter: blur(10px);
-  min-width: 100px;
+  position: relative;
 }
 
 .nav-btn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
   transform: translateY(-1px);
+}
+
+.skip-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+  padding: 14px 28px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  flex: 0 0 auto;
+  min-width: 100px;
+  border-style: dashed;
+}
+
+.skip-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.word-guessed-btn {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(56, 142, 60, 0.2));
+  border: 1.5px solid rgba(76, 175, 80, 0.4);
+  padding: 18px 48px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  flex: 1 1 auto;
+  color: #ffffff;
+  min-width: 180px;
+  box-shadow: 0 4px 20px rgba(76, 175, 80, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.word-guessed-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.word-guessed-btn:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+.word-guessed-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.28), rgba(56, 142, 60, 0.28));
+  border-color: rgba(76, 175, 80, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(76, 175, 80, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.word-guessed-btn:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .nav-btn:disabled {

@@ -171,11 +171,18 @@
                 <h2 class="current-word" x-text="getCurrentWord()"></h2>
                 <div class="word-navigation">
                   <button
-                    @click="nextWord()"
-                    class="nav-btn next-btn"
+                    @click="skipWord()"
+                    class="nav-btn skip-btn"
                     :disabled="!timerRunning"
                   >
-                    <span class="btn-text">Next</span>
+                    <span class="btn-text">Skip</span>
+                  </button>
+                  <button
+                    @click="nextWord()"
+                    class="nav-btn next-btn word-guessed-btn"
+                    :disabled="!timerRunning"
+                  >
+                    <span class="btn-text">Word Guessed</span>
                   </button>
                 </div>
                 <button

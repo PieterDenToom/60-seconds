@@ -1589,6 +1589,9 @@ function wordGame() {
       this.nextWordClicks++;
       this.currentWordIndex++;
 
+      // Play success sound when word is guessed
+      this.playSuccessSound();
+
       // Check if we've reached the word limit
       const maxWords =
         this.gameSettings.language === "both"
@@ -1603,6 +1606,41 @@ function wordGame() {
       ) {
         // Game is complete - all words have been used
         // Calculate and add the final round's score
+        this.roundScore = this.nextWordClicks;
+        this.teamScores[this.currentTeam] += this.roundScore;
+
+        // Play win sound
+        this.playWinSound();
+        this.currentScreen = "gameComplete";
+        this.stopTimer();
+        return;
+      }
+    },
+
+    // Skip word without awarding a point
+    skipWord() {
+      if (!this.timerRunning) return;
+
+      // Only increment the word index, not nextWordClicks (which is used for scoring)
+      this.currentWordIndex++;
+
+      // Play skip sound when word is skipped
+      this.playSkipSound();
+
+      // Check if we've reached the word limit
+      const maxWords =
+        this.gameSettings.language === "both"
+          ? this.combinedWords.length
+          : this.gameSettings.language === "dutch"
+          ? this.dutchWords.length
+          : this.englishWords.length;
+
+      if (
+        this.currentWordIndex >= this.gameSettings.words ||
+        this.currentWordIndex >= maxWords
+      ) {
+        // Game is complete - all words have been used
+        // Calculate and add the final round's score (skipped words don't count)
         this.roundScore = this.nextWordClicks;
         this.teamScores[this.currentTeam] += this.roundScore;
 
@@ -1656,6 +1694,30 @@ function wordGame() {
 
       oscillator.start(this.audioContext.currentTime);
       oscillator.stop(this.audioContext.currentTime + 0.1);
+    },
+
+    // Play success sound when word is guessed
+    playSuccessSound() {
+      // Create audio element for success sound
+      const successAudio = new Audio("audio/success.mp3");
+      successAudio.volume = 0.7; // Set volume to 70%
+
+      // Play the success sound
+      successAudio.play().catch((error) => {
+        console.log("Could not play success sound:", error);
+      });
+    },
+
+    // Play skip sound when word is skipped
+    playSkipSound() {
+      // Create audio element for skip sound
+      const skipAudio = new Audio("audio/skip.mp3");
+      skipAudio.volume = 0.7; // Set volume to 70%
+
+      // Play the skip sound
+      skipAudio.play().catch((error) => {
+        console.log("Could not play skip sound:", error);
+      });
     },
 
     // Play buzzer sound when time runs out
