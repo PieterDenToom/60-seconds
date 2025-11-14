@@ -18,6 +18,7 @@ function wordGame() {
     showRoundScore: false,
     teamScores: {},
     combinedWords: [], // New property for 'both' language mode
+    englishWordsLoaded: false, // Track if English words from JSON have been loaded
 
     // Word arrays
     dutchWords: [
@@ -1450,9 +1451,14 @@ function wordGame() {
     },
 
     // Start the game
-    startGame() {
+    async startGame() {
       // Stop any existing timer first
       this.stopTimer();
+
+      // Load English words from JSON if not already loaded and English is selected
+      if ((this.gameSettings.language === "english" || this.gameSettings.language === "both") && !this.englishWordsLoaded) {
+        await this.loadEnglishWordsFromJSON();
+      }
 
       // Reset game state
       this.currentTeam = 1;
@@ -1874,6 +1880,56 @@ function wordGame() {
       }
 
       return { team: winningTeam, score: highestScore };
+    },
+
+    // Process English words JSON data
+    processEnglishWordsJSON(data) {
+      if (data.game_data && Array.isArray(data.game_data)) {
+        const newWords = [];
+        
+        // Extract both single words ("1") and compound phrases ("3")
+        data.game_data.forEach((item) => {
+          if (item["1"]) {
+            newWords.push(item["1"]);
+          }
+          if (item["3"]) {
+            newWords.push(item["3"]);
+          }
+        });
+
+        // Add new words to the englishWords array
+        this.englishWords = [...this.englishWords, ...newWords];
+        this.englishWordsLoaded = true;
+        
+        console.log(`Loaded ${newWords.length} additional English words from JSON`);
+      }
+    },
+
+    // Load English words from JSON file
+    async loadEnglishWordsFromJSON() {
+      if (this.englishWordsLoaded) {
+        return; // Already loaded
+      }
+
+      try {
+        const response = await fetch("/public/english_words.json");
+        if (!response.ok) {
+          // Try alternative path
+          const altResponse = await fetch("public/english_words.json");
+          if (!altResponse.ok) {
+            console.warn("Could not load english_words.json, using default words only");
+            return;
+          }
+          const data = await altResponse.json();
+          this.processEnglishWordsJSON(data);
+          return;
+        }
+
+        const data = await response.json();
+        this.processEnglishWordsJSON(data);
+      } catch (error) {
+        console.warn("Error loading english_words.json:", error);
+      }
     },
 
     // Initialize the component

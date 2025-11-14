@@ -32,7 +32,6 @@
           <div class="game-settings">
             <div class="setting-group">
               <label for="languageChoice" class="setting-label">
-                <span class="label-icon">🌍</span>
                 Language
               </label>
               <div class="language-options">
@@ -40,26 +39,25 @@
                   @click="gameSettings.language = 'english'"
                   :class="gameSettings.language === 'english' ? 'language-btn active' : 'language-btn'"
                 >
-                  🇺🇸 English
+                  English
                 </button>
                 <button
                   @click="gameSettings.language = 'dutch'"
                   :class="gameSettings.language === 'dutch' ? 'language-btn active' : 'language-btn'"
                 >
-                  🇳🇱 Dutch
+                  Dutch
                 </button>
                 <button
                   @click="gameSettings.language = 'both'"
                   :class="gameSettings.language === 'both' ? 'language-btn active' : 'language-btn'"
                 >
-                  🌍 Both
+                  Both
                 </button>
               </div>
             </div>
 
             <div class="setting-group">
               <label for="teamCount" class="setting-label">
-                <span class="label-icon">👥</span>
                 Number of Teams
               </label>
               <div class="number-input">
@@ -77,10 +75,7 @@
             </div>
 
             <div class="setting-group">
-              <label for="wordCount" class="setting-label">
-                <span class="label-icon">📝</span>
-                Total Words
-              </label>
+              <label for="wordCount" class="setting-label"> Total Words </label>
               <div class="number-input">
                 <button @click="decreaseWords()" class="number-btn">-</button>
                 <input
@@ -101,7 +96,6 @@
               <span class="btn-text">Start Game!</span>
             </button>
             <button @click="showInfoPopup = true" class="info-btn">
-              <span class="btn-icon">ℹ️</span>
               <span class="btn-text">How to Play</span>
             </button>
           </div>
@@ -182,7 +176,6 @@
                     :disabled="!timerRunning"
                   >
                     <span class="btn-text">Next</span>
-                    <span class="btn-icon">➡️</span>
                   </button>
                 </div>
                 <button
@@ -190,7 +183,6 @@
                   class="end-round-btn"
                   :disabled="!timerRunning"
                 >
-                  <span class="btn-icon">⏹️</span>
                   <span class="btn-text">End Round</span>
                 </button>
               </div>
@@ -200,7 +192,6 @@
           <!-- Start Round Button -->
           <div class="start-round-section" x-show="shouldShowStartRound">
             <button @click="startRound()" class="start-round-btn">
-              <span class="btn-icon">🚀</span>
               <span
                 class="btn-text"
                 x-text="`Start Round ${currentRound}`"
@@ -210,7 +201,6 @@
 
           <div class="game-controls">
             <button @click="goBackToStart()" class="back-btn">
-              <span class="btn-icon">🏠</span>
               <span class="btn-text">Back to Start</span>
             </button>
           </div>
@@ -224,7 +214,7 @@
       >
         <div class="game-complete-container">
           <div class="complete-content">
-            <h1 class="complete-title">🎉 Game Complete! 🎉</h1>
+            <h1 class="complete-title">Game Complete</h1>
 
             <!-- Final Scores -->
             <div class="final-scores">
@@ -250,8 +240,9 @@
                     <span
                       class="winner-badge"
                       x-show="isDraw() ? teamScores[team] === getWinningTeam().score : team === getWinningTeam().team"
-                      x-text="isDraw() ? '🤝' : '👑'"
-                    ></span>
+                    >
+                      Winner
+                    </span>
                   </div>
                 </template>
               </div>
@@ -261,7 +252,7 @@
             <div class="winner-announcement">
               <h3
                 class="winner-title"
-                x-text="isDraw() ? '🤝 It\'s a Draw! 🤝' : '🏆 Winner! 🏆'"
+                x-text="isDraw() ? 'It\'s a Draw!' : 'Winner!'"
               ></h3>
               <p
                 class="winner-text"
@@ -270,7 +261,6 @@
             </div>
 
             <button @click="goBackToStart()" class="complete-btn">
-              <span class="btn-icon">🏠</span>
               <span class="btn-text">Back to Start</span>
             </button>
           </div>
